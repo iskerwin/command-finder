@@ -1,3 +1,5 @@
+![](https://github.com/iskerwin/Command-Finder/blob/main/img/command-finder.png?raw=true)
+
 ## Command Finder
 
 Stop memorizing commands. Just search.
