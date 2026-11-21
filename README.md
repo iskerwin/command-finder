@@ -2,6 +2,8 @@
 
 A zsh plugin that turns your own aliases, functions and documented commands into a searchable fzf picker. Press `Ctrl-G`, type a few letters, and insert, run or copy the command.
 
+![command-finder](img/command-finder.png)
+
 - **Aliases** defined in your config files, with their trailing comment as the description
 - **Functions** with a `# @desc:` / `# @usage:` comment above them
 - **Catalog lines**: comment lines such as `# git log --oneline -20   # Show the last 20 commits`, for subcommands and common invocations
