@@ -16,6 +16,7 @@ source $here/lib/ui-fallback.zsh
 source $here/sources/history.zsh
 source $here/sources/function.zsh
 source $here/core.zsh
+CF_OWN_FILES=''   # fixture scans see only their own files
 XDG_STATE_HOME=$tmp/state
 CF_HISTORY_MAX=200
 # Concurrent appends under one lock lose no records.
@@ -108,5 +109,6 @@ out=$(env -u ZSH_UI_DIR PATH=$newfzf:$PATH HOME=$tmp XDG_STATE_HOME=$tmp/st $com
 assert 'cf-doctor with fzf 0.66: exits 0' 1 "$(print -r -- $out | grep -c '^rc=0')"
 out2=$(env -u ZSH_UI_DIR PATH=$newfzf:$PATH HOME=$tmp XDG_STATE_HOME=$tmp/st $commands[zsh] -f -c 'CF_PATHS=( $2 ); source $1/command-finder.plugin.zsh; cf-doctor' _ ${here:-$PWD} $here/sources 2>&1 </dev/null || true)
 assert 'cf-doctor: counts the *.zsh files in a directory' 1 "$(print -r -- $out2 | grep -c 'sources/  4 \*.zsh')"
+assert 'cf::files always lists cf-doctor' 1 "$(CF_PATHS=( $tmp/none ) CF_OWN_FILES=$here/lib/doctor.zsh; cf::files | grep -c '/lib/doctor.zsh$')"
 assert 'cf-doctor: missing CF_PATHS entry is flagged' 1 "$(print -r -- $out | grep -c 'missing  does not exist')"
 builtin print -r -- "$passed passed"

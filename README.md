@@ -105,7 +105,7 @@ Set these before sourcing the plugin.
 
 | Variable | Default | Meaning |
 |---|---|---|
-| `CF_PATHS` | `~/.zshrc` `~/.config/zsh` | Files and directories to scan (directories: every `*.zsh` below them) |
+| `CF_PATHS` | `~/.zshrc` `~/.config/zsh` | Files and directories to scan (directories: every `*.zsh` below them); `cf-doctor` is always listed |
 | `CF_FUNCTION_ALL` | empty | awk regex of file paths whose public functions are listed even without `@desc` |
 | `CF_BINDKEY` | `^G` | Key that opens the picker; empty binds nothing |
 | `CF_HISTORY_MAX` | `1000` | Selections kept in `${XDG_STATE_HOME:-~/.local/state}/command-finder/history` |

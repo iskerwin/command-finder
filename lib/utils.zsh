@@ -11,7 +11,11 @@ cf::history_file() {
   print -r -- "${XDG_STATE_HOME:-$HOME/.local/state}/command-finder/history"
 }
 
-# Every *.zsh under the CF_PATHS directories, plus CF_PATHS entries that are files (deduplicated)
+# command-finder's own commands (cf-doctor) are listed whatever CF_PATHS says
+typeset -g CF_OWN_FILES=${${(%):-%x}:A:h}/doctor.zsh
+
+# Every *.zsh under the CF_PATHS directories, plus CF_PATHS entries that are files (deduplicated),
+# plus command-finder's own commands
 cf::files() {
   local -aU files
   local d
@@ -22,6 +26,7 @@ cf::files() {
       files+=( $d/**/*.zsh(N.) )
     fi
   done
+  files+=( $CF_OWN_FILES )
   print -rl -- $files
 }
 
