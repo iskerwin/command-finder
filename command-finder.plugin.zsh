@@ -2,17 +2,19 @@
 
 (( $+commands[fzf] )) || return
 
-source "${0:A:h}/lib/utils.zsh"
-source "${0:A:h}/lib/format.zsh"
-source "${0:A:h}/sources/history.zsh"
-source "${0:A:h}/sources/alias.zsh"
-source "${0:A:h}/sources/function.zsh"
-source "${0:A:h}/ui/fzf.zsh"
-source "${0:A:h}/core.zsh"
+# Files and directories to scan (directories: every *.zsh below them) for aliases,
+# functions with a "# @desc:" comment, and catalog comment lines. Set before sourcing to override.
+(( ${#CF_PATHS} )) || typeset -ga CF_PATHS=( ${ZDOTDIR:-$HOME}/.zshrc ${XDG_CONFIG_HOME:-$HOME/.config}/zsh )
 
-alias af='command_finder'
+() {
+  local f
+  for f in lib/utils lib/ui sources/history sources/alias sources/function sources/command ui/fzf core; do
+    source "$1/$f.zsh"
+  done
+} "${0:A:h}"
 
-if [[ -n $ZLE ]]; then
-  zle -N command_finder_widget command_finder
-  bindkey '^F' command_finder_widget
+# Ctrl-G by default; set CF_BINDKEY before sourcing to change it, or CF_BINDKEY='' to bind nothing
+if [[ -o interactive && -n ${CF_BINDKEY-^G} ]]; then
+  zle -N command_finder
+  bindkey "${CF_BINDKEY-^G}" command_finder
 fi
