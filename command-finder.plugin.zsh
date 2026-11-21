@@ -23,6 +23,15 @@ fi
   done
 } "${0:A:h}"
 
+# fzf 0.58+ (input / list / preview boxes); newer options are added only when present
+if ! _ui_fzf_since 0.58; then
+  if [[ -o interactive ]]; then
+    _ui_fzf_ver
+    print -ru2 -- "command-finder: needs fzf 0.58 or newer, found $(( REPLY / 1000000 )).$(( REPLY / 1000 % 1000 )).$(( REPLY % 1000 )) — ${${commands[brew]:+brew upgrade fzf}:-https://github.com/junegunn/fzf/releases}"
+  fi
+  return
+fi
+
 # Ctrl-G by default; set CF_BINDKEY before sourcing to change it, or CF_BINDKEY='' to bind nothing
 if [[ -o interactive && -n ${CF_BINDKEY-^G} ]]; then
   zle -N command_finder

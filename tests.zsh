@@ -90,4 +90,10 @@ assert 'enter inserts without execution' 'sample ' "$inserted"
 selection=$'ctrl-y\nalias\tsample\tdesc\texpanded value\t\t\t\tsample'
 command_finder
 assert 'copy uses alias expansion' 'expanded value' "$(command cat -- "$tmp/copied")"
+# fzf older than 0.58: say so and bind nothing
+oldfzf=$(mktemp -d)
+print -r -- '#!/bin/sh
+echo "0.44.1 (debian)"' > $oldfzf/fzf; chmod +x $oldfzf/fzf
+assert 'old fzf: message, no widget' 'command-finder: needs fzf 0.58 or newer, found 0.44.1 0' \
+    "$(env -u ZSH_UI_DIR PATH=$oldfzf:$PATH zsh -fi -c 'source $1/command-finder.plugin.zsh 2>&1 | cut -d" " -f1-8; source $1/command-finder.plugin.zsh 2>/dev/null; print -r -- ${+widgets[command_finder]}' _ ${here:-$PWD} 2>/dev/null | tr '\n' ' ' | sed 's/ $//')"
 builtin print -r -- "$passed passed"

@@ -133,13 +133,16 @@ cf::fzf() {
   _ui_fzf_keys cyn '^O' Source '^/' Hide
   local pkeys=$REPLY
 
+  # Options newer than the minimum fzf 0.58
+  local -a newer
+  _ui_fzf_since 0.61 && newer+=( --ghost='name, description or expansion' )
+  _ui_fzf_since 0.68 && newer+=( --preview-wrap-sign='   ' )
   fzf "${_ui_fzf_opts[@]}" --no-hscroll \
     --input-label="$(<$dir/label-All)" \
     --list-label="$keys" \
     --preview-label="$pkeys" \
     --prompt='All ❯ ' \
     --query="${CF_QUERY-}" \
-    --ghost='name, description or expansion' \
     --delimiter=$'\t' --with-nth=9 \
     --tiebreak=begin,index \
     --expect=ctrl-e,ctrl-y,ctrl-x \
@@ -148,5 +151,5 @@ cf::fzf() {
     --bind="ctrl-o:execute:$CF_OPEN" \
     --preview="$CF_PREVIEW" \
     --preview-window='right,45%,wrap,<100(down,45%,wrap)' \
-    --preview-wrap-sign='   '
+    "${newer[@]}"
 }

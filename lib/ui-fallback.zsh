@@ -42,6 +42,22 @@
     if (( i == 1 )); then printf -v REPLY '%dB' $v; else printf -v REPLY '%.1f%s' $v $u[i]; fi
 }
 
+# _ui_fzf_since <x.y[.z]>: the installed fzf is at least that version (false without fzf).
+# For options newer than a tool's minimum fzf: _ui_fzf_since 0.61 && args+=( --ghost=... )
+# The version is read once per shell and kept in _ui_fzf_v (0.66.1 -> 66001); _ui_fzf_ver puts it in $REPLY.
+(( $+functions[_ui_fzf_ver] )) || _ui_fzf_ver() {
+    if [[ -z ${_ui_fzf_v-} ]]; then
+        local v=$(FZF_DEFAULT_OPTS= FZF_DEFAULT_OPTS_FILE= command fzf --version 2>/dev/null)
+        local -a p=( ${(s:.:)${v%% *}} )
+        typeset -gi _ui_fzf_v=$(( ${p[1]%%[^0-9]*}0 / 10 * 1000000 + ${p[2]%%[^0-9]*}0 / 10 * 1000 + ${p[3]%%[^0-9]*}0 / 10 ))
+    fi
+    REPLY=$_ui_fzf_v
+}
+(( $+functions[_ui_fzf_since] )) || _ui_fzf_since() {
+    local -a p=( ${(s:.:)1} )
+    _ui_fzf_ver
+    (( REPLY && REPLY >= ${p[1]:-0} * 1000000 + ${p[2]:-0} * 1000 + ${p[3]:-0} ))
+}
 (( ${+_ui_fzf_look} )) || typeset -ga _ui_fzf_look=(
     --cycle --height=80% --reverse --info=inline-right
     --input-border=rounded --list-border=rounded --preview-border=rounded
