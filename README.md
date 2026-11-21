@@ -63,7 +63,7 @@ plug "zsh-users/zsh-syntax-highlighting"    # 5. widget-wrapping plugins last
 
 | Key | Action |
 |---|---|
-| `Ctrl-G` | Open the picker (also `command_finder`; many people add `alias af=command_finder`) |
+| `Ctrl-G` | Open the picker (also `command_finder`; many people add `alias cf=command_finder`) |
 | `Enter` | Insert into the command line |
 | `Ctrl-X` | Run it |
 | `Ctrl-E` | Insert an alias's expansion instead of its name |
