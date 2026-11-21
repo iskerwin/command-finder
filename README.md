@@ -13,9 +13,11 @@ A zsh plugin that turns your own aliases, functions and documented commands into
 
 - zsh 5.8+
 - [fzf](https://github.com/junegunn/fzf) 0.58+
-- Optional: [bat](https://github.com/sharkdp/bat) for highlighted previews, a [Nerd Font](https://www.nerdfonts.com/) for the type icons
+- Optional: [bat](https://github.com/sharkdp/bat) (or Debian's `batcat`) for highlighted previews, a [Nerd Font](https://www.nerdfonts.com/) for the type icons
 
 Without fzf the plugin loads nothing and says so when the shell starts; without bat the preview is plain text.
+
+Run `cf-doctor` to check everything at once: zsh and fzf versions, bat, the clipboard and editor it will use, each `CF_PATHS` entry and how many entries it found, whether the key still opens the picker, and the history file. It is defined even when fzf is missing, and exits non-zero when something required is.
 
 ## Install
 
@@ -72,6 +74,8 @@ plug "zsh-users/zsh-syntax-highlighting"    # 5. widget-wrapping plugins last
 | `Ctrl-/` | Toggle the preview |
 
 The All view is grouped alias → function → command and sorted by name within each group. The History view is sorted by frecency.
+
+`cf-doctor` checks the setup (see [Requirements](#requirements)).
 
 `cf::group <prefix> [keywords...]` opens the picker with only the `<prefix>-*` commands, which makes an easy entry point for a family of functions:
 

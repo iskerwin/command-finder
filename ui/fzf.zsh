@@ -66,11 +66,11 @@ cf::render() {
   done
 }
 
-# Preview card: ▍name › type, source and selection history, description, [section] expansion/usage (highlighted by bat)
+# Preview card: ▍name › type, source and selection history, description, [section] expansion/usage (highlighted by bat / batcat)
 typeset -g CF_PREVIEW='
 t={1}; name={2}; desc={3}; detail={4}; file={5}; line={6}; uses={7}; ins={8}
 R="\033[0m"; B="\033[1m"; BL="\033[34m"; M="\033[35m"; C="\033[36m"; G="\033[90m"
-hl() { if command -v bat >/dev/null 2>&1; then bat --language=zsh --style=plain --color=always --paging=never; else cat; fi | sed "s/^/  /"; }
+hl() { b=$(command -v bat || command -v batcat); if [ -n "$b" ]; then "$b" --language=zsh --style=plain --color=always --paging=never; else cat; fi | sed "s/^/  /"; }
 section() { printf "\n${M}[%s]${R}\n" "$1"; }
 case $t in
   alias) label=alias ;; function) label=function ;; command) label=command ;; *) label=history ;;

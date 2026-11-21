@@ -1,13 +1,13 @@
 # command-finder/command-finder.plugin.zsh
 
-# fzf is required: without it, say so in interactive shells and load nothing
+# cf-doctor and the plain look load first, so cf-doctor works even when fzf is missing or too old
+() { local f; for f in lib/utils lib/ui-fallback lib/doctor; do source "$1/$f.zsh"; done; } "${0:A:h}"
+
+# fzf is required: without it, say so in interactive shells and load nothing else
 if (( ! $+commands[fzf] )); then
   if [[ -o interactive ]]; then
-    if (( $+commands[brew] )); then
-      print -ru2 -- "command-finder: needs fzf — brew install fzf"
-    else
-      print -ru2 -- "command-finder: needs fzf — https://github.com/junegunn/fzf#installation"
-    fi
+    cf::install_hint fzf
+    print -ru2 -- "command-finder: needs fzf — $REPLY (cf-doctor checks everything)"
   fi
   return
 fi
@@ -18,7 +18,7 @@ fi
 
 () {
   local f
-  for f in lib/utils lib/ui-fallback sources/history sources/alias sources/function sources/command ui/fzf core; do
+  for f in sources/history sources/alias sources/function sources/command ui/fzf core; do
     source "$1/$f.zsh"
   done
 } "${0:A:h}"
@@ -27,7 +27,7 @@ fi
 if ! _ui_fzf_since 0.58; then
   if [[ -o interactive ]]; then
     _ui_fzf_ver
-    print -ru2 -- "command-finder: needs fzf 0.58 or newer, found $(( REPLY / 1000000 )).$(( REPLY / 1000 % 1000 )).$(( REPLY % 1000 )) — ${${commands[brew]:+brew upgrade fzf}:-https://github.com/junegunn/fzf/releases}"
+    print -ru2 -- "command-finder: needs fzf 0.58 or newer, found $(( REPLY / 1000000 )).$(( REPLY / 1000 % 1000 )).$(( REPLY % 1000 )) — ${${commands[brew]:+brew upgrade fzf}:-https://github.com/junegunn/fzf/releases} (cf-doctor checks everything)"
   fi
   return
 fi

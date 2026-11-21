@@ -96,4 +96,15 @@ print -r -- '#!/bin/sh
 echo "0.44.1 (debian)"' > $oldfzf/fzf; chmod +x $oldfzf/fzf
 assert 'old fzf: message, no widget' 'command-finder: needs fzf 0.58 or newer, found 0.44.1 0' \
     "$(env -u ZSH_UI_DIR PATH=$oldfzf:$PATH zsh -fi -c 'source $1/command-finder.plugin.zsh 2>&1 | cut -d" " -f1-8; source $1/command-finder.plugin.zsh 2>/dev/null; print -r -- ${+widgets[command_finder]}' _ ${here:-$PWD} 2>/dev/null | tr '\n' ' ' | sed 's/ $//')"
+# cf-doctor: loaded and failing without fzf, passing with a new enough one
+nofzf=$(mktemp -d); command ln -s $commands[zsh] $nofzf/zsh
+out=$(env -u ZSH_UI_DIR PATH=$nofzf HOME=$tmp $commands[zsh] -f -c 'CF_PATHS=( $2 ); source $1/command-finder.plugin.zsh; cf-doctor; print -r -- "rc=$?"' _ ${here:-$PWD} $here/core.zsh 2>&1 </dev/null || true)
+assert 'cf-doctor without fzf: exits 1' 1 "$(print -r -- $out | grep -c '^rc=1')"
+assert 'cf-doctor without fzf: names fzf' 1 "$(print -r -- $out | grep -c '^! fzf  the picker')"
+newfzf=$(mktemp -d)
+print -r -- '#!/bin/sh
+echo "0.66.0 (brew)"' > $newfzf/fzf; chmod +x $newfzf/fzf
+out=$(env -u ZSH_UI_DIR PATH=$newfzf:$PATH HOME=$tmp XDG_STATE_HOME=$tmp/st $commands[zsh] -f -c 'CF_PATHS=( $2 $3/missing ); source $1/command-finder.plugin.zsh; cf-doctor; print -r -- "rc=$?"' _ ${here:-$PWD} $here/core.zsh $tmp 2>&1 </dev/null || true)
+assert 'cf-doctor with fzf 0.66: exits 0' 1 "$(print -r -- $out | grep -c '^rc=0')"
+assert 'cf-doctor: missing CF_PATHS entry is flagged' 1 "$(print -r -- $out | grep -c 'missing  does not exist')"
 builtin print -r -- "$passed passed"
