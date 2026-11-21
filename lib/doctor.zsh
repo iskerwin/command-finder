@@ -29,6 +29,7 @@ cf-doctor() {
   fi
   local -i bad=0 n
   local g=${_ui[gry]} r=${_ui[r]} v ed p
+  local -a zfiles
   _ui_head cf-doctor 'command-finder'
 
   _ui_sect required
@@ -78,7 +79,7 @@ cf-doctor() {
     if [[ -f $p ]]; then
       _ui_ok "${p/#$HOME/~}"
     elif [[ -d $p ]]; then
-      n=${#${:-$p/**/*.zsh(N.)}}
+      zfiles=( $p/**/*.zsh(N.) ); n=${#zfiles}
       if (( n )); then _ui_ok "${p/#$HOME/~}/  ${g}$n *.zsh${r}"
       else _ui_warn "${p/#$HOME/~}/  ${g}no *.zsh files${r}"; fi
     else

@@ -106,5 +106,7 @@ print -r -- '#!/bin/sh
 echo "0.66.0 (brew)"' > $newfzf/fzf; chmod +x $newfzf/fzf
 out=$(env -u ZSH_UI_DIR PATH=$newfzf:$PATH HOME=$tmp XDG_STATE_HOME=$tmp/st $commands[zsh] -f -c 'CF_PATHS=( $2 $3/missing ); source $1/command-finder.plugin.zsh; cf-doctor; print -r -- "rc=$?"' _ ${here:-$PWD} $here/core.zsh $tmp 2>&1 </dev/null || true)
 assert 'cf-doctor with fzf 0.66: exits 0' 1 "$(print -r -- $out | grep -c '^rc=0')"
+out2=$(env -u ZSH_UI_DIR PATH=$newfzf:$PATH HOME=$tmp XDG_STATE_HOME=$tmp/st $commands[zsh] -f -c 'CF_PATHS=( $2 ); source $1/command-finder.plugin.zsh; cf-doctor' _ ${here:-$PWD} $here/sources 2>&1 </dev/null || true)
+assert 'cf-doctor: counts the *.zsh files in a directory' 1 "$(print -r -- $out2 | grep -c 'sources/  4 \*.zsh')"
 assert 'cf-doctor: missing CF_PATHS entry is flagged' 1 "$(print -r -- $out | grep -c 'missing  does not exist')"
 builtin print -r -- "$passed passed"
