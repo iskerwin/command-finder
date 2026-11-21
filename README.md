@@ -88,9 +88,8 @@ Set these before sourcing the plugin.
 | `CF_BINDKEY` | `^G` | Key that opens the picker; empty binds nothing |
 | `CF_HISTORY_MAX` | `1000` | Selections kept in `${XDG_STATE_HOME:-~/.local/state}/command-finder/history` |
 | `CF_HISTORY_ONLY_MAX` | `50` | History entries shown that match no alias, function or catalog line |
-| `CF_FZF_OPTS` | built in | fzf look and keys |
 
-If your shell defines `_ui_err`, `_ui_warn`, `_ui_fzf_opts`, `_ui_fzf_label`, `_ui_fzf_tabs` or `_ui_fzf_keys`, command-finder uses them instead of its built-in versions, so it can match your other pickers. Copying uses `clip-copy` when available, then `pbcopy`, `wl-copy`, `xclip`, `xsel`, and finally OSC 52.
+Install [zsh-ui](https://github.com/iskerwin/zsh-ui) to give command-finder the same btop-style look as your other tools (as in the screenshot); without it, command-finder uses a plain built-in look. Copying uses `clip-copy` when available, then `pbcopy`, `wl-copy`, `xclip`, `xsel`, and finally OSC 52.
 
 ## Development
 

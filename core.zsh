@@ -74,7 +74,7 @@ command_finder() {
   local dir t result
   dir=$(mktemp -d) || return 1
   {
-  cf::collect > $dir/rows || { cf::err 'cannot read the command catalog'; return 1; }
+  cf::collect > $dir/rows || { _ui_err 'cannot read the command catalog'; return 1; }
   # cf::group keeps only the <prefix>-* entries
   if [[ -n ${CF_GROUP-} ]]; then
     $CF_AWK -F '\t' -v p="$CF_GROUP-" 'index($5, p) == 1' $dir/rows > $dir/group
@@ -115,7 +115,7 @@ command_finder() {
     return 0
   fi
 
-  cf::history_add "$name" || cf::warn 'cannot record the selection history'
+  cf::history_add "$name" || _ui_warn 'cannot record the selection history'
 
   if [[ $key == ctrl-x ]]; then
     # Run: replace the command line and accept it

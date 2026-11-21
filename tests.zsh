@@ -12,7 +12,7 @@ assert() {
     (( ++passed ))
 }
 source $here/lib/utils.zsh
-source $here/lib/ui.zsh
+source $here/lib/ui-fallback.zsh
 source $here/sources/history.zsh
 source $here/sources/function.zsh
 source $here/core.zsh
@@ -58,10 +58,10 @@ assert 'CF_FUNCTION_ALL lists all' plain "${${(ps:\x1f:)$(cf::source_function)}[
 unset CF_FUNCTION_ALL
 CF_PATHS=( $tmp/config )
 
-# Without host _ui_* helpers the built-in fzf look is used.
-local -a reply
-cf::fzf_opts
-assert 'fallback fzf options' 1 "$(( ${reply[(I)--bind=*change:first*]} > 0 ))"
+# The plugin works without zsh-ui (fallback), and zsh-ui wins whether it loads before or after it.
+assert 'fallback without zsh-ui' 'ui-fallback.zsh' "$(zsh -f -c 'source $1/command-finder.plugin.zsh; print -r -- ${functions_source[_ui_err]:t}' _ $here)"
+assert 'zsh-ui loaded first wins' zsh-ui "$(zsh -f -c '_ui_err() { print zsh-ui; }; source $1/command-finder.plugin.zsh; _ui_err' _ $here)"
+assert 'zsh-ui loaded later wins' zsh-ui "$(zsh -f -c 'source $1/command-finder.plugin.zsh; _ui_err() { print zsh-ui; }; _ui_err' _ $here)"
 
 # all view: alias → function → command, then name; history view: frecency, ties by type.
 row() { print -r -- "${(pj:\x1f:)@}"; }

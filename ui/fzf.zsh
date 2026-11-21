@@ -111,9 +111,9 @@ cf::fzf() {
   # cf::group lists one prefix: the title shows the prefix, without tabs
   for v in $views; do
     if [[ -n ${CF_GROUP-} ]]; then
-      cf::fzf_label grn " $CF_ICON[command]  $CF_GROUP"
+      _ui_fzf_label grn " $CF_ICON[command]  $CF_GROUP"
     else
-      cf::fzf_tabs grn " $CF_ICON[command]  Command Finder" $v $views
+      _ui_fzf_tabs grn " $CF_ICON[command]  Command Finder" $v $views
     fi
     print -rn -- "$REPLY" > $dir/label-$v
   done
@@ -128,14 +128,12 @@ cf::fzf() {
     History*) n=All f=all ;; *) n=History f=history ;;
   esac
   printf "change-prompt(%s ❯ )+reload(cat '"$dir"'/%s)+change-input-label:%s" "$n" "$f" "$(cat '"$dir"'/label-$n)"'
-  cf::fzf_keys blu '↵' Insert '^X' Run '^E' Expand '^Y' Copy '^S' Type '^R' History
+  _ui_fzf_keys blu '↵' Insert '^X' Run '^E' Expand '^Y' Copy '^S' Type '^R' History
   local keys=$REPLY
-  cf::fzf_keys cyn '^O' Source '^/' Hide
+  _ui_fzf_keys cyn '^O' Source '^/' Hide
   local pkeys=$REPLY
 
-  local -a reply
-  cf::fzf_opts
-  fzf "${reply[@]}" --no-hscroll \
+  fzf "${_ui_fzf_opts[@]}" --no-hscroll \
     --input-label="$(<$dir/label-All)" \
     --list-label="$keys" \
     --preview-label="$pkeys" \

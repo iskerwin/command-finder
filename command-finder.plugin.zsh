@@ -8,7 +8,7 @@
 
 () {
   local f
-  for f in lib/utils lib/ui sources/history sources/alias sources/function sources/command ui/fzf core; do
+  for f in lib/utils lib/ui-fallback sources/history sources/alias sources/function sources/command ui/fzf core; do
     source "$1/$f.zsh"
   done
 } "${0:A:h}"
