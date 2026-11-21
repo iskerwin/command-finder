@@ -1,6 +1,16 @@
 # command-finder/command-finder.plugin.zsh
 
-(( $+commands[fzf] )) || return
+# fzf is required: without it, say so in interactive shells and load nothing
+if (( ! $+commands[fzf] )); then
+  if [[ -o interactive ]]; then
+    if (( $+commands[brew] )); then
+      print -ru2 -- "command-finder: needs fzf — brew install fzf"
+    else
+      print -ru2 -- "command-finder: needs fzf — https://github.com/junegunn/fzf#installation"
+    fi
+  fi
+  return
+fi
 
 # Files and directories to scan (directories: every *.zsh below them) for aliases,
 # functions with a "# @desc:" comment, and catalog comment lines. Set before sourcing to override.

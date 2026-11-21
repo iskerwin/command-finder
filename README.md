@@ -15,6 +15,8 @@ A zsh plugin that turns your own aliases, functions and documented commands into
 - [fzf](https://github.com/junegunn/fzf) 0.61+
 - Optional: [bat](https://github.com/sharkdp/bat) for highlighted previews, a [Nerd Font](https://www.nerdfonts.com/) for the type icons
 
+Without fzf the plugin loads nothing and says so when the shell starts; without bat the preview is plain text.
+
 ## Install
 
 **Homebrew**
