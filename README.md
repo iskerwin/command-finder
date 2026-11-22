@@ -1,5 +1,7 @@
 # command-finder
 
+English | [简体中文](README.zh-CN.md)
+
 A zsh plugin that turns your own aliases, functions and documented commands into a searchable fzf picker. Press `Ctrl-G`, type a few letters, and insert, run or copy the command.
 
 ![command-finder](img/command-finder.png)
