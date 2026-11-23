@@ -113,7 +113,7 @@ mkcd() { mkdir -p -- "$1" && cd -- "$1"; }
 | `CF_HISTORY_MAX` | `1000` | 在 `${XDG_STATE_HOME:-~/.local/state}/command-finder/history` 中保留的选择记录数 |
 | `CF_HISTORY_ONLY_MAX` | `50` | 不匹配任何 alias、函数或目录行的历史条目最多显示多少条 |
 
-安装 [zsh-ui](https://github.com/iskerwin/zsh-ui)，command-finder 就会和你的其他工具一样使用 btop 风格（如截图所示）；没有它时使用朴素的内置样式。复制时依次尝试 `clip-copy`、`pbcopy`、`wl-copy`、`xclip`、`xsel`，最后用 OSC 52。
+安装 [zsh-ui](https://github.com/iskerwin/zsh-ui)，command-finder 就会和你的其他工具一样使用 TUI 风格（如截图所示）；没有它时使用朴素的内置样式。复制时依次尝试 `clip-copy`、`pbcopy`、`wl-copy`、`xclip`、`xsel`，最后用 OSC 52。
 
 ## 开发
 

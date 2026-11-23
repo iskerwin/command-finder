@@ -113,7 +113,7 @@ Set these before sourcing the plugin.
 | `CF_HISTORY_MAX` | `1000` | Selections kept in `${XDG_STATE_HOME:-~/.local/state}/command-finder/history` |
 | `CF_HISTORY_ONLY_MAX` | `50` | History entries shown that match no alias, function or catalog line |
 
-Install [zsh-ui](https://github.com/iskerwin/zsh-ui) to give command-finder the same btop-style look as your other tools (as in the screenshot); without it, command-finder uses a plain built-in look. Copying uses `clip-copy` when available, then `pbcopy`, `wl-copy`, `xclip`, `xsel`, and finally OSC 52.
+Install [zsh-ui](https://github.com/iskerwin/zsh-ui) to give command-finder the same TUI-style look as your other tools (as in the screenshot); without it, command-finder uses a plain built-in look. Copying uses `clip-copy` when available, then `pbcopy`, `wl-copy`, `xclip`, `xsel`, and finally OSC 52.
 
 ## Development
 
