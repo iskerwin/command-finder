@@ -121,6 +121,8 @@ Install [zsh-ui](https://github.com/iskerwin/zsh-ui) to give command-finder the 
 zsh -f tests.zsh
 ```
 
+CI also checks that `lib/ui-fallback.zsh` is an unchanged copy of the latest [zsh-ui](https://github.com/iskerwin/zsh-ui) release.
+
 ## License
 
 [MIT](LICENSE)

@@ -121,6 +121,8 @@ mkcd() { mkdir -p -- "$1" && cd -- "$1"; }
 zsh -f tests.zsh
 ```
 
+CI 还会检查 `lib/ui-fallback.zsh` 与 [zsh-ui](https://github.com/iskerwin/zsh-ui) 最新版本的同名文件完全一致。
+
 ## 许可证
 
 [MIT](LICENSE)
